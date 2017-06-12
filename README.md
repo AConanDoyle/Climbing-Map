@@ -1,3 +1,3 @@
 # AConanDoyle.github.io
 
-[Karte](http://AConanDoyle.github.io){:target="_blank"}
+[Karte](http://AConanDoyle.github.io)
