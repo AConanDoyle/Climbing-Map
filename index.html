@@ -197,7 +197,7 @@
 		var legend = L.control({position: 'bottomright'});
 		legend.onAdd = function (map) {
 			var div = L.DomUtil.create('div', 'info legend');
-			grades = [" In- & Outdoor Bouldern", " Indoor Bouldern", " Outdoor Bouldern", " In-Outdoor Klettern", " Indoor Klettern", " Outdoor Klettern"],
+			grades = [" In- & Outdoor (Klettern & )Bouldern", " Indoor (Klettern & ) Bouldern", " Outdoor (Klettern & ) Bouldern", " In-Outdoor Klettern", " Indoor Klettern", " Outdoor Klettern"],
 			labels = ["data/bouldern_in_out.png","data/bouldern_in.png","data/bouldern_out.png", "data/climb_in_out.png", "data/climb_in.png", "data/climb_out.png"];
 			// loop through our density intervals and generate a label with a colored square for each interval
 			div.innerHTML +="<center><h3>Legend</h3></center>";
