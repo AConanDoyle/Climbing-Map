@@ -37,7 +37,7 @@
 		var map = L.map('map', {
 			zoomControl: true,
 			maxZoom: 19,
-			layers: [basemap_carto]
+			layers: [basemap_esri, basemap_carto]
 
 		}).fitBounds([[52.38884, 12.99408], [52.697742041, 13.7397442714]]);
 
@@ -200,8 +200,9 @@
 		};
 
 		var baseMaps = {
+			"Satellite view": basemap_esri,
 			"Standard view": basemap_carto,
-			"Satellite view": basemap_esri
+			
 		};
 
 		L.control.layers(baseMaps,
