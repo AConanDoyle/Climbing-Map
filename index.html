@@ -28,7 +28,7 @@
 		var hash = new L.Hash(map);
 		var feature_group = new L.featureGroup([]);
 
-		var basemap_stamen = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+		var basemap_carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 			// attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
 		}), basemap_esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 			// attribution: ' Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
@@ -37,12 +37,9 @@
 		var map = L.map('map', {
 			zoomControl: true,
 			maxZoom: 19,
-			layers: [basemap_esri, basemap_stamen]
+			layers: [basemap_carto]
 
 		}).fitBounds([[52.38884, 12.99408], [52.697742041, 13.7397442714]]);
-
-		basemap_esri.addTo(map);
-		basemap_stamen.addTo(map);
 
 		// fullscrenn controll
 		map.addControl(new L.Control.Fullscreen({
@@ -112,7 +109,6 @@
 			popupAnchor: [-1, -42],
 		});
 
-
 		// statement for which chooses the right icon
 		var iconSelector = function (inout, typ) {
 			switch (inout) {
@@ -146,7 +142,6 @@
 					break;
 			}
 		};
-
 
 		// adds dataset KletterBoulderSpots
 		var exp_KletterBoulderSpotsJSON = new L.geoJson(exp_KletterBoulderSpots, {
@@ -205,8 +200,8 @@
 		};
 
 		var baseMaps = {
-			"Satellite view": basemap_esri,
-			"Standard view": basemap_stamen
+			"Standard view": basemap_carto,
+			"Satellite view": basemap_esri
 		};
 
 		L.control.layers(baseMaps,
