@@ -1,162 +1,185 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Magnesia</title>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-		<link rel="stylesheet" href="css/MarkerCluster.css" />
-		<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
-		<link rel="stylesheet" type="text/css" href="css/own_style.css">
-		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
-		<script src="js/leaflet-hash.js"></script>
-		<script src="js/Autolinker.min.js"></script>
-		<script src="js/leaflet.markercluster.js"></script>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	</head>
-	<body>
-		<div id="map"></div>
-		<script src="data/exp_KletterBoulderSpots.js"></script>
-		<script src="data/exp_KletterSpots.js"></script>
-		<script src="data/exp_BoulderSpots.js"></script>
-		<link rel="icon" type="image/png" href="logo/button_schwarz.png"/>
-		<script>
-		
-		var hash = new L.Hash(map);
-		var additional_attrib;
-		var feature_group = new L.featureGroup([]);
-		
-		var basemap_stamen =  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-		}), basemap_esri =  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-			attribution: ' Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-		});		
-				
-		var map = L.map('map', {
-			zoomControl:true,
-			maxZoom:19,
-			layers: [basemap_esri, basemap_stamen]
 
-		}).fitBounds([[52.38884,12.99408],[52.697742041,13.7397442714]]);
-		
-		basemap_esri.addTo(map);
-		basemap_stamen.addTo(map);
-		
-		var layerOrder=new Array();
-		function pop_Spots(feature, layer) {					
-			var popupContent = '<table><tr><th scope="row">NAME</th><td>' + Autolinker.link(String(feature.properties['NAME'])) + '</td></tr><tr><th scope="row">STRASSE</th><td>' + Autolinker.link(String(feature.properties['STRASSE'])) + '</td></tr><tr><th scope="row">HAUSNR</th><td>' + Autolinker.link(String(feature.properties['HAUSNR'])) + '</td></tr><tr><th scope="row">OEFFZEIT</th><td>' + Autolinker.link(String(feature.properties['OEFFZEIT'])) + '</td></tr><tr><th scope="row">PREIS</th><td>' + Autolinker.link(String(feature.properties['PREIS'])) + '</td></tr><tr><th scope="row">INOUT</th><td>' + Autolinker.link(String(feature.properties['INOUT'])) + '</td></tr><tr><th scope="row">NUTZEN</th><td>' + Autolinker.link(String(feature.properties['NUTZEN'])) + '</td></tr><tr><th scope="row">MATERIAL</th><td>' + Autolinker.link(String(feature.properties['MATERIAL'])) + '</td></tr><tr><th scope="row">KROUTEN</th><td>' + Autolinker.link(String(feature.properties['KROUTEN'])) + '</td></tr><tr><th scope="row">BROUTEN</th><td>' + Autolinker.link(String(feature.properties['BROUTEN'])) + '</td></tr><tr><th scope="row">HOMEPAGE</th><td>' + Autolinker.link(String(feature.properties['HOMEPAGE']));
+<head>
+	<title>Magnesia</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+	<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+	<link rel="stylesheet" type="text/css" href="css/own_style.css">
+	<link rel='stylesheet' href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' />
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+	<script src="js/leaflet-hash.js"></script>
+	<script src="js/Autolinker.min.js"></script>
+	<script src="js/leaflet.markercluster.js"></script>
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+
+<body>
+	<div id="map"></div>
+	<script src="data/exp_KletterBoulderSpots.js"></script>
+	<script src="data/exp_KletterSpots.js"></script>
+	<script src="data/exp_BoulderSpots.js"></script>
+	<link rel="icon" type="image/png" href="logo/button_schwarz.png" />
+	<script>
+
+		var hash = new L.Hash(map);
+		var feature_group = new L.featureGroup([]);
+
+		var basemap_carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+			// attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+		}), basemap_esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			// attribution: ' Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+		});
+
+		var map = L.map('map', {
+			zoomControl: true,
+			maxZoom: 19,
+			layers: [basemap_esri, basemap_carto]
+
+		}).fitBounds([[52.38884, 12.99408], [52.697742041, 13.7397442714]]);
+
+		// fullscrenn controll
+		map.addControl(new L.Control.Fullscreen({
+			title: {
+				'false': 'View Fullscreen',
+				'true': 'Exit Fullscreen'
+			}
+		}));
+
+		function pop_Spots(feature, layer) {
+			var popupContent = '<table><tr><th scope="row">NAME</th><td>' + String(feature.properties['NAME']) + '</td></tr><tr><th scope="row">Adresse</th><td>' +
+				String(feature.properties['STRASSE']) + ' ' + nullCheck(String(feature.properties['HAUSNR'])) +
+				'</td></tr><tr><th scope="row">OEFFZEIT</th><td>' + nullCheck(String(feature.properties['OEFFZEIT'])) + '</td></tr><tr><th scope="row">PREIS</th><td>' +
+				String(feature.properties['PREIS']) + '</td></tr><tr><th scope="row">INOUT</th><td>' + String(feature.properties['INOUT']) +
+				'</td></tr><tr><th scope="row">NUTZEN</th><td>' + String(feature.properties['NUTZEN']) + '</td></tr><tr><th scope="row">MATERIAL</th><td>' +
+				String(feature.properties['MATERIAL']) + '</td></tr><tr><th scope="row">KROUTEN</th><td>' + String(feature.properties['KROUTEN']) +
+				'</td></tr><tr><th scope="row">BROUTEN</th><td>' + String(feature.properties['BROUTEN']) + '</td></tr><tr><th scope="row">HOMEPAGE</th><td>' +
+				nullCheck(Autolinker.link(String(feature.properties['HOMEPAGE']), { truncate: 20}));
 			layer.bindPopup(popupContent);
 		}
-		
+
+		var nullCheck = function (input) {
+			if (input === "null") {
+				return "-"
+			} else {
+				return input
+			}
+		};
+
 		// custom icons for bouldering
 		var BoulderOut = L.icon({
 			iconUrl: 'data/bouldern_out.png',
-			iconSize: [30 , 42], 
+			iconSize: [30, 42],
 			iconAnchor: [15, 42],
-			popupAnchor:  [-1, -42],
-		   });		
+			popupAnchor: [-1, -42],
+		});
 		var BoulderIn = L.icon({
 			iconUrl: 'data/bouldern_in.png',
-			iconSize: [30 , 42], 
+			iconSize: [30, 42],
 			iconAnchor: [15, 42],
-			popupAnchor:  [-1, -42],
-			});			
+			popupAnchor: [-1, -42],
+		});
 		var BoulderInOut = L.icon({
 			iconUrl: 'data/bouldern_in_out.png',
-			iconSize: [30 , 42],    
+			iconSize: [30, 42],
 			iconAnchor: [15, 42],
-			popupAnchor:  [-1, -42],
-			});
-			
+			popupAnchor: [-1, -42],
+		});
+
 		// custom icons for bouldering
 		var ClimbOut = L.icon({
 			iconUrl: 'data/climb_out.png',
-			iconSize: [30 , 42], 
+			iconSize: [30, 42],
 			iconAnchor: [15, 42],
-			popupAnchor:  [-1, -42],
-		   });
+			popupAnchor: [-1, -42],
+		});
 		var ClimbIn = L.icon({
 			iconUrl: 'data/climb_in.png',
-			iconSize: [30 , 42], 
+			iconSize: [30, 42],
 			iconAnchor: [15, 42],
-			popupAnchor:  [-1, -42],
-		   });
-		
+			popupAnchor: [-1, -42],
+		});
 		var ClimbInOut = L.icon({
 			iconUrl: 'data/climb_in_out.png',
-			iconSize: [30 , 42], 
+			iconSize: [30, 42],
 			iconAnchor: [15, 42],
-			popupAnchor:  [-1, -42],
-		   });
-		   
-		
+			popupAnchor: [-1, -42],
+		});
+
 		// statement for which chooses the right icon
-		var iconSelector = function(inout, typ) {
-				switch (inout) {
-					case "outdoor":
-						// switches between climbing and bouldering
-						if(typ == "Klettern & Bouldern"){
-							return BoulderOut
-						}else if (typ == "Klettern"){
-							return ClimbOut
-						}else{
-							return BoulderOut
-						}
-						break;
-					case "indoor":
-						if(typ == "Klettern & Bouldern"){
-							return BoulderOut
-						}else if (typ == "Klettern"){
-							return ClimbIn
-						}else{
-							return BoulderIn
-						}
-						break;
-					case "indoor\/outdoor":
-						if(typ == "Klettern & Bouldern"){
-							return BoulderInOut
-						}else if (typ == "Klettern"){
-							return ClimbInOut
-						}else{
-							return BoulderInOut
-						}
-						break;
-				}
-			};
-		
-		
-		  
+		var iconSelector = function (inout, typ) {
+			switch (inout) {
+				case "outdoor":
+					// switches between climbing and bouldering
+					if (typ == "Klettern & Bouldern") {
+						return BoulderOut
+					} else if (typ == "Klettern") {
+						return ClimbOut
+					} else {
+						return BoulderOut
+					}
+					break;
+				case "indoor":
+					if (typ == "Klettern & Bouldern") {
+						return BoulderOut
+					} else if (typ == "Klettern") {
+						return ClimbIn
+					} else {
+						return BoulderIn
+					}
+					break;
+				case "indoor\/outdoor":
+					if (typ == "Klettern & Bouldern") {
+						return BoulderInOut
+					} else if (typ == "Klettern") {
+						return ClimbInOut
+					} else {
+						return BoulderInOut
+					}
+					break;
+			}
+		};
+
 		// adds dataset KletterBoulderSpots
-		var exp_KletterBoulderSpotsJSON = new L.geoJson(exp_KletterBoulderSpots,{
+		var exp_KletterBoulderSpotsJSON = new L.geoJson(exp_KletterBoulderSpots, {
 			onEachFeature: pop_Spots,
 			pointToLayer: function (feature, latlng) {
-				return L.marker(latlng,{icon: iconSelector(Autolinker.link(String(feature.properties['INOUT'])),
-				Autolinker.link(String(feature.properties['NUTZEN'])))})
+				return L.marker(latlng, {
+					icon: iconSelector(Autolinker.link(String(feature.properties['INOUT'])),
+						Autolinker.link(String(feature.properties['NUTZEN'])))
+				})
 			}
-		});		
-		
+		});
+
 		// adds dataset KletterSpots
-		var exp_KletterSpotsJSON = new L.geoJson(exp_KletterSpots,{
+		var exp_KletterSpotsJSON = new L.geoJson(exp_KletterSpots, {
 			onEachFeature: pop_Spots,
-			pointToLayer: function (feature, latlng) {  
-				return L.marker(latlng,{icon: iconSelector(Autolinker.link(String(feature.properties['INOUT'])),
-				Autolinker.link(String(feature.properties['NUTZEN'])))})
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng, {
+					icon: iconSelector(Autolinker.link(String(feature.properties['INOUT'])),
+						Autolinker.link(String(feature.properties['NUTZEN'])))
+				})
 			}
 		});
-		
+
 		// adds dataset BoulderSpots
-		var exp_BoulderSpotsJSON = new L.geoJson(exp_BoulderSpots,{
+		var exp_BoulderSpotsJSON = new L.geoJson(exp_BoulderSpots, {
 			onEachFeature: pop_Spots,
-			pointToLayer: function (feature, latlng) {  
-				return L.marker(latlng,{icon: iconSelector(Autolinker.link(String(feature.properties['INOUT'])),
-				Autolinker.link(String(feature.properties['NUTZEN'])))})
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng, {
+					icon: iconSelector(Autolinker.link(String(feature.properties['INOUT'])),
+						Autolinker.link(String(feature.properties['NUTZEN'])))
+				})
 			}
 		});
-				
+
 		// clusters the markers on map
-		var cluster_groupKletterBoulderSpotsJSON= new L.MarkerClusterGroup({showCoverageOnHover: false});
-		var cluster_groupKletterSpotsJSON= new L.MarkerClusterGroup({showCoverageOnHover: false});
-		var cluster_groupBoulderSpotsJSON= new L.MarkerClusterGroup({showCoverageOnHover: false});
+		var cluster_groupKletterBoulderSpotsJSON = new L.MarkerClusterGroup({ showCoverageOnHover: false });
+		var cluster_groupKletterSpotsJSON = new L.MarkerClusterGroup({ showCoverageOnHover: false });
+		var cluster_groupBoulderSpotsJSON = new L.MarkerClusterGroup({ showCoverageOnHover: false });
 
 		cluster_groupKletterBoulderSpotsJSON.addLayer(exp_KletterBoulderSpotsJSON);
 		cluster_groupKletterSpotsJSON.addLayer(exp_KletterSpotsJSON);
@@ -175,40 +198,68 @@
 			this.update();
 			return this._div;
 		};
-		
-		// title on upper right
-		title.update = function () {
-			this._div.innerHTML = '<h2>Climbing and Boulderspots in Berlin</h2>'
-		};
-		title.addTo(map);
-	
+
 		var baseMaps = {
-			"Satellite view": basemap_esri,	
-			"Standard view": basemap_stamen};	
+			"Satellite view": basemap_esri,
+			"Standard view": basemap_carto,
 			
+		};
+
 		L.control.layers(baseMaps,
-			{"Klettern & Bouldern": cluster_groupKletterBoulderSpotsJSON,
-			"Klettern": cluster_groupKletterSpotsJSON,
-			"Bouldern": cluster_groupBoulderSpotsJSON},
-			{collapsed:true}).addTo(map);
-			
-        
-		// legend 
-		var legend = L.control({position: 'bottomright'});
+			{
+				"Klettern & Bouldern": cluster_groupKletterBoulderSpotsJSON,
+				"Klettern": cluster_groupKletterSpotsJSON,
+				"Bouldern": cluster_groupBoulderSpotsJSON
+			},
+			{ collapsed: true }).addTo(map);
+
+		// legend		
+		var legend = L.control({ position: 'bottomright' });
 		legend.onAdd = function (map) {
 			var div = L.DomUtil.create('div', 'info legend');
 			grades = [" In- & Outdoor (Klettern & )Bouldern", " Indoor (Klettern & ) Bouldern", " Outdoor (Klettern & ) Bouldern", " In-Outdoor Klettern", " Indoor Klettern", " Outdoor Klettern"],
-			labels = ["data/bouldern_in_out.png","data/bouldern_in.png","data/bouldern_out.png", "data/climb_in_out.png", "data/climb_in.png", "data/climb_out.png"];
+				labels = ["data/bouldern_in_out.png", "data/bouldern_in.png", "data/bouldern_out.png", "data/climb_in_out.png", "data/climb_in.png", "data/climb_out.png"];
 			// loop through our density intervals and generate a label with a colored square for each interval
-			div.innerHTML +="<center><h3>Legend</h3></center>";
+			div.innerHTML += "<center><h3>Legend</h3></center>";
 			for (var i = 0; i < grades.length; i++) {
 				div.innerHTML +=
-					("<img src=" + labels[i] +" height='30' width='auto'>") + ('<span style="vertical-align:70%">' + grades[i] + "</span>") + '<br>';
-			} 
+					("<img src=" + labels[i] + " height='30' width='auto'>") + ('<span style="vertical-align:70%">' + grades[i] + "</span>") + '<br>';
+			}
 			return div;
 		};
-		legend.addTo(map);
-		
+
+		// legend controle
+		var toggleLegend = true;
+		var ourCustomControl = L.Control.extend({
+			options: {
+				position: 'topleft'
+			},
+
+			onAdd: function (map) {
+				var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+				container.style.backgroundColor = 'white';
+				container.style.backgroundImage = 'url(logo/map_legend.png)';
+				container.style.backgroundSize = "26px 26px";
+				container.style.width = '26px';
+				container.style.height = '26px';
+				container.title = 'View Map Legend';
+
+				container.onclick = function () {
+					if (toggleLegend === true) {
+						legend.addTo(map);
+						toggleLegend = false;
+					} else {
+						legend.removeFrom(map);
+						toggleLegend = true;
+					}
+				}
+				return container;
+			}
+		});
+		map.addControl(new ourCustomControl());
+
 	</script>
 </body>
+
 </html>
