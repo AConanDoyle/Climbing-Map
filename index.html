@@ -10,8 +10,8 @@
 	<link rel='stylesheet' href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' />
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
-	<script src="js/leaflet-hash.js"></script>
-	<script src="js/Autolinker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/autolinker/3.0.5/Autolinker.min.js"></script>
 	<script src="js/leaflet.markercluster.js"></script>
 	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -201,8 +201,7 @@
 
 		var baseMaps = {
 			"Satellite view": basemap_esri,
-			"Standard view": basemap_carto,
-			
+			"Standard view": basemap_carto,			
 		};
 
 		L.control.layers(baseMaps,
@@ -261,5 +260,4 @@
 
 	</script>
 </body>
-
 </html>
