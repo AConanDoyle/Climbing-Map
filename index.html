@@ -7,8 +7,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
 	<link rel="stylesheet" type="text/css" href="css/own_style.css">
-	<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />	
-	
+	<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
+		rel='stylesheet' />
+
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"></script>
@@ -30,9 +31,9 @@
 		var feature_group = new L.featureGroup([]);
 
 		var basemap_carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-			// attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
 		}), basemap_esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-			// attribution: ' Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+			attribution: ' Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 		});
 
 		var map = L.map('map', {
@@ -58,7 +59,7 @@
 				'</td></tr><tr><th scope="row">NUTZEN</th><td>' + String(feature.properties['NUTZEN']) + '</td></tr><tr><th scope="row">MATERIAL</th><td>' +
 				String(feature.properties['MATERIAL']) + '</td></tr><tr><th scope="row">KROUTEN</th><td>' + String(feature.properties['KROUTEN']) +
 				'</td></tr><tr><th scope="row">BROUTEN</th><td>' + String(feature.properties['BROUTEN']) + '</td></tr><tr><th scope="row">HOMEPAGE</th><td>' +
-				nullCheck(Autolinker.link(String(feature.properties['HOMEPAGE']), { truncate: 20}));
+				nullCheck(Autolinker.link(String(feature.properties['HOMEPAGE']), { truncate: 20 }));
 			layer.bindPopup(popupContent);
 		}
 
@@ -202,7 +203,7 @@
 
 		var baseMaps = {
 			"Satellite view": basemap_esri,
-			"Standard view": basemap_carto,			
+			"Standard view": basemap_carto,
 		};
 
 		L.control.layers(baseMaps,
@@ -261,4 +262,5 @@
 
 	</script>
 </body>
+
 </html>
