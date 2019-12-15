@@ -1,3 +1,5 @@
 # AConanDoyle.github.io
 
-[Kletterspots in Berlin (Web-Karte)](http://AConanDoyle.github.io)
+[Demo](http://AConanDoyle.github.io)
+
+License: MIT
