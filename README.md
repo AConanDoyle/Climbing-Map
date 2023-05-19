@@ -1,4 +1,4 @@
-# AConanDoyle.github.io
+# Climbing map
 
 License: MIT
 
